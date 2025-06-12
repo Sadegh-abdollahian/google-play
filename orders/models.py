@@ -10,8 +10,8 @@ class Order(models.Model):
         ("purchased", "پرداخت شده"),
         ("deleted", "حذف شده"),
     )
-    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.PROTECT)
-    app = models.OneToOneField(App, on_delete=models.PROTECT)
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.PROTECT)
+    app = models.ForeignKey(App, on_delete=models.PROTECT)
     total_amount = models.PositiveIntegerField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="draft")
     created_at = models.DateTimeField(auto_now_add=True)

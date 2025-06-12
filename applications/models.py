@@ -5,7 +5,7 @@ from core.settings import AUTH_USER_MODEL
 
 
 class Category(models.Model):
-    name = models.CharField((""), max_length=30)
+    name = models.CharField(max_length=30)
     position = models.PositiveIntegerField()
 
     def __str__(self):
@@ -18,17 +18,13 @@ class App(models.Model):
         ("published", "منتشر شده"),
         ("deleted", "حذف شده"),
     )
-    apk_file = models.FileField(verbose_name="فایل")
+    apk_file = models.FileField()
     name = models.CharField(max_length=100)
-    subname = models.CharField((""), max_length=150)
-    icon_image = models.ImageField((""), validators=[validate_image_size])
-    status = models.CharField(
-        verbose_name="", max_length=30, choices=STATUS_CHOICES, default="draft"
-    )
+    subname = models.CharField(max_length=150)
+    icon_image = models.ImageField(validators=[validate_image_size])
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="draft")
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    legal_age = models.PositiveSmallIntegerField(
-        verbose_name="", validators=[validate_max_age]
-    )
+    legal_age = models.PositiveSmallIntegerField(validators=[validate_max_age])
     downloads = models.PositiveIntegerField()
     about = models.CharField(max_length=4000)
     price = models.PositiveIntegerField()
