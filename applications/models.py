@@ -7,6 +7,7 @@ from core.settings import AUTH_USER_MODEL
 class Category(models.Model):
     name = models.CharField(max_length=30)
     position = models.PositiveIntegerField()
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
 
     def __str__(self):
         return self.name
@@ -28,6 +29,7 @@ class App(models.Model):
     downloads = models.PositiveIntegerField()
     about = models.CharField(max_length=4000)
     price = models.PositiveIntegerField()
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
     tags = TaggableManager()
 
     def __str__(self):
