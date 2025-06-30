@@ -16,3 +16,4 @@ class CategoryViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = []
+    lookup_field = "slug"
