@@ -23,8 +23,14 @@ class App(models.Model):
     name = models.CharField(max_length=100)
     subname = models.CharField(max_length=150)
     icon_image = models.ImageField(validators=[validate_image_size])
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="draft")
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    status = models.CharField(
+        max_length=30,
+        choices=STATUS_CHOICES,
+        default="draft",
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.PROTECT, related_name="apps"
+    )
     legal_age = models.PositiveSmallIntegerField(validators=[validate_max_age])
     downloads = models.PositiveIntegerField()
     about = models.CharField(max_length=4000)
@@ -36,6 +42,7 @@ class App(models.Model):
         return self.name
 
 
+# This model is for the images of the app that are shown in the previews section.
 class AppImage(models.Model):
     position = models.PositiveSmallIntegerField(unique=False)
     image_file = models.ImageField()

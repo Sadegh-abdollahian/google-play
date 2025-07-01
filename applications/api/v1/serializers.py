@@ -13,7 +13,7 @@ class AppSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         request = self.context.get("request")
-        user = request.user if request else None
+        user = request.user if request and hasattr(request, "user") else None
 
         if instance.price == 0 or user.is_superuser:
             return representation
