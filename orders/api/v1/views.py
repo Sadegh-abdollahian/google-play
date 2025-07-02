@@ -6,10 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class OrderViewset(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
+    # Requires payment logic
     def perform_create(self, serializer):
         if Order.objects.filter(
             user=self.request.user, app=serializer.validated_data.get("app")
@@ -27,3 +27,6 @@ class OrderViewset(viewsets.ModelViewSet):
             return response.Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return serializers.ValidationError("Serializer is not valid.")
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
