@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics, viewsets
 from extensions.utils import send_otp
 from random import randint
-from accounts.models import OtpCode, WhistList, User
+from accounts.models import OtpCode, WishList, User
 
 
 class SendOTP(generics.CreateAPIView):
@@ -72,7 +72,7 @@ class LoginView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class whishListViewset(viewsets.ModelViewSet):
-    queryset = WhistList.objects.all()
+class wishListViewset(viewsets.ModelViewSet):
+    queryset = WishList.objects.all()
     serializer_class = whishListSerializer
     permission_classes = []

@@ -1,5 +1,5 @@
 from django.db import models
-from .validators import validate_image_size, validate_max_age
+from .validators import validate_image_size, validate_max_age, validate_max_rate
 from taggit.managers import TaggableManager
 from core.settings import AUTH_USER_MODEL
 
@@ -56,6 +56,7 @@ class Review(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.PROTECT)
     app = models.ForeignKey(App, on_delete=models.PROTECT)
     text = models.CharField(max_length=3000)
+    rating = models.PositiveSmallIntegerField(validators=[validate_max_rate])
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -27,10 +27,10 @@ class OtpCode(models.Model):
         return f"{self.phone_number} --- {self.code}"
 
 
-class WhistList(models.Model):
+class WishList(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT)
 
 
-class whishListItem(models.Model):
-    whishlist = models.ForeignKey(WhistList, on_delete=models.PROTECT)
+class wishListItem(models.Model):
+    wishlist = models.ForeignKey(WishList, on_delete=models.PROTECT)
     app = models.ForeignKey(App, on_delete=models.PROTECT)
