@@ -27,10 +27,7 @@ class OtpCode(models.Model):
         return f"{self.phone_number} --- {self.code}"
 
 
-class WishList(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
-
-
+# Every user can add an app to hes/her wishlist
 class wishListItem(models.Model):
-    wishlist = models.ForeignKey(WishList, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, default=None)
     app = models.ForeignKey(App, on_delete=models.PROTECT)

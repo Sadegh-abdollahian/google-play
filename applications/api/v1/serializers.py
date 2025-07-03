@@ -13,12 +13,18 @@ class AppSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         request = self.context.get("request")
+
         user = request.user if request else None
 
-        if instance.price == 0 or user.is_superuser:
+        if instance.price == 0 or (user.is_authenticated and user.is_superuser):
             return representation
 
-        if Order.objects.filter(user=user, app=instance, status="purchased").exists():
+        if (
+            user.is_authenticated
+            and Order.objects.filter(
+                user=user, app=instance, status="purchased"
+            ).exists()
+        ):
             return representation
 
         representation.pop("apk_file", None)

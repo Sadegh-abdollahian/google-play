@@ -4,7 +4,7 @@ from rest_framework import status
 
 # from accounts.models import User
 from django.contrib.auth import get_user_model
-from accounts.models import OtpCode, WishList
+from accounts.models import OtpCode
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
@@ -63,10 +63,3 @@ class LoginSerializer(serializers.Serializer):
             return attrs
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-class whishListSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = WishList
-        fields = "__all__"

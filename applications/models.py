@@ -56,7 +56,7 @@ class Review(models.Model):
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.PROTECT)
     app = models.ForeignKey(App, on_delete=models.PROTECT)
     text = models.CharField(max_length=3000)
-    rating = models.PositiveSmallIntegerField(validators=[validate_max_rate])
+    rating = models.PositiveSmallIntegerField(validators=[validate_max_rate], default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
