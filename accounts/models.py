@@ -28,6 +28,6 @@ class OtpCode(models.Model):
 
 
 # Every user can add an app to hes/her wishlist
-class wishListItem(models.Model):
+class BookMark(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, default=None)
     app = models.ForeignKey(App, on_delete=models.PROTECT)
