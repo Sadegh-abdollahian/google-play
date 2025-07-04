@@ -4,21 +4,23 @@ from .serializers import (
     PhoneNumberSerializer,
     RegisterSerializer,
     LoginSerializer,
+    BookMarkSerializer,
 )
+from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from extensions.utils import send_otp
 from random import randint
-from accounts.models import OtpCode, User
+from accounts.models import OtpCode, User, BookMark
 
 
 class SendOTP(generics.CreateAPIView):
     serializer_class = PhoneNumberSerializer
     queryset = OtpCode.objects.all()
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             phone = serializer.validated_data.get("phone_number")
             otp = OtpCode.objects.filter(phone_number=phone).last()
@@ -42,6 +44,7 @@ class SendOTP(generics.CreateAPIView):
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -58,6 +61,7 @@ class RegisterView(generics.CreateAPIView):
 class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **Kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -69,3 +73,14 @@ class LoginView(generics.CreateAPIView):
                 {"info": "logged in successfully"}, status=status.HTTP_200_OK
             )
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class BookMarkView(viewsets.ModelViewSet):
+    queryset = BookMark.objects.all()
+    serializer_class = BookMarkSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = BookMark.objects.filter(user=self.request.user)
+
+        return queryset

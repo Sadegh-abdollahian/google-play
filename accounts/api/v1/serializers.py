@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # from accounts.models import User
+from applications.api.v1.serializers import AppSerializer
+from accounts.models import OtpCode, BookMark
 from django.contrib.auth import get_user_model
-from accounts.models import OtpCode
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
@@ -63,3 +64,12 @@ class LoginSerializer(serializers.Serializer):
             return attrs
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class BookMarkSerializer(serializers.Serializer):
+    user = PhoneNumberSerializer()
+    app = AppSerializer()
+
+    class Meta:
+        model = BookMark
+        fields = ["user", "app"]
