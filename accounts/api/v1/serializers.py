@@ -22,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["phone_number", "password", "password1", "otp"]
+        fields = ["phone_number", "username", "password", "password1", "otp"]
 
     def validate(self, attrs):
         phone = attrs.get("phone_number")

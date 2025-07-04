@@ -10,13 +10,13 @@ class User(AbstractUser):
         unique=True,
         verbose_name="شماره موبایل",
     )
-    username = models.CharField(max_length=45, verbose_name="نام کاربری")
+    username = models.CharField(max_length=45, verbose_name="نام کاربری", unique=True)
 
     objects = CustomUserManager()
     USERNAME_FIELD = "phone_number"
 
     def __str__(self):
-        return self.phone_number
+        return self.username
 
 
 class OtpCode(models.Model):
