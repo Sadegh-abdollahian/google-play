@@ -11,6 +11,7 @@ class User(AbstractUser):
         verbose_name="شماره موبایل",
     )
     username = models.CharField(max_length=45, verbose_name="نام کاربری", unique=True)
+    is_developer = models.BooleanField(default=False)
 
     objects = CustomUserManager()
     USERNAME_FIELD = "phone_number"

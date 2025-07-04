@@ -37,6 +37,7 @@ class App(models.Model):
     price = models.PositiveIntegerField()
     slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
     tags = TaggableManager()
+    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
         return self.name

@@ -1,5 +1,5 @@
-from rest_framework import viewsets, status
-from rest_framework.decorators import action, api_view
+from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from applications.models import App, Category
 from orders.models import Order
@@ -9,7 +9,7 @@ from django.http import FileResponse, HttpResponse
 from django.db.models import F
 
 
-class AppViewset(viewsets.ReadOnlyModelViewSet):
+class AppViewset(viewsets.ModelViewSet):
     queryset = App.objects.all()
     serializer_class = AppSerializer
     permission_classes = []
