@@ -16,6 +16,8 @@ class AppSerializer(serializers.ModelSerializer):
 
         user = request.user if request else None
 
+        print(instance.owner == user)
+
         if instance.price == 0 or (user.is_authenticated and user.is_superuser):
             return representation
 
@@ -25,6 +27,9 @@ class AppSerializer(serializers.ModelSerializer):
                 user=user, app=instance, status="purchased"
             ).exists()
         ):
+            return representation
+
+        if instance.owner == user:
             return representation
 
         representation.pop("apk_file", None)
