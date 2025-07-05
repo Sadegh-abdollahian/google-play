@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from applications.models import App, Category
 from orders.models import Order
 from .serializers import AppSerializer, CategorySerializer
-from .permissions import IsDeveloperOrReadOnly
+from .permissions import IsAppOwnerOrReadOnly
 from accounts.models import User
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse, HttpResponse
@@ -18,7 +18,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 class AppViewset(viewsets.ModelViewSet):
     queryset = App.objects.all()
     serializer_class = AppSerializer
-    permission_classes = [IsDeveloperOrReadOnly]
+    permission_classes = [IsAppOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_class = AppFilter
     lookup_field = "slug"

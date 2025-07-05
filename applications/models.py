@@ -42,6 +42,9 @@ class App(models.Model):
     def __str__(self):
         return self.name
 
+    def get_app_owner(self):
+        return self.owner.username
+
 
 # This model is for the images of the app that are shown in the previews section.
 class AppImage(models.Model):
