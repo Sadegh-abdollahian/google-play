@@ -5,15 +5,17 @@ from applications.models import App, Category
 from orders.models import Order
 from .serializers import AppSerializer, CategorySerializer
 from .permissions import IsDeveloperOrReadOnly
+from .filters import AppFilter
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse, HttpResponse
 from django.db.models import F
 
 
 class AppViewset(viewsets.ModelViewSet):
-    queryset = App.objects.all()
+    queryset = App.objects.order_by("pk")
     serializer_class = AppSerializer
     permission_classes = [IsDeveloperOrReadOnly]
+    filter_classes = [AppFilter]
     lookup_field = "slug"
 
     def perform_create(self, serializer):
