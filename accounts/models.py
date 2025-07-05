@@ -9,9 +9,8 @@ class User(AbstractUser):
     phone_number = models.CharField(
         max_length=11,
         unique=True,
-        verbose_name="شماره موبایل",
     )
-    username = models.CharField(max_length=45, verbose_name="نام کاربری", unique=True)
+    username = models.CharField(max_length=45, unique=True)
     is_developer = models.BooleanField(default=False)
 
     objects = CustomUserManager()

@@ -33,6 +33,7 @@ class CategoryViewset(viewsets.ReadOnlyModelViewSet):
     permission_classes = []
     lookup_field = "slug"
 
+    # This action returns every app with the same category
     @action(detail=True, methods=["get"])
     def apps(self, request, slug=None):
         category = self.get_object()
@@ -50,7 +51,8 @@ def download_app(request, app_slug):
     user = request.user
 
     if (
-        app.price != 0
+        user.is_authenticated
+        and app.price != 0
         and not Order.objects.filter(user=user, app=app, status="purchased").exists()
     ):
         return HttpResponse("Payment is required to access this app.", status=402)
@@ -62,9 +64,13 @@ def download_app(request, app_slug):
     return FileResponse(app.apk_file.open(), as_attachment=True)
 
 
-# Fake data views
 def add_fake_data(request):
+    """
+    This function generates fake data for the App model
+    """
     fake = Faker()
+    # The number in the range function is the amount of fake data that are
+    # going to be generated
     for _ in range(10):
         App.objects.create(
             apk_file=fake.file_extension(category="image"),
