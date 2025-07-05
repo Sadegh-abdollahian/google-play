@@ -5,17 +5,22 @@ from applications.models import App, Category
 from orders.models import Order
 from .serializers import AppSerializer, CategorySerializer
 from .permissions import IsDeveloperOrReadOnly
-from .filters import AppFilter
+from accounts.models import User
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse, HttpResponse
 from django.db.models import F
+from django.utils.text import slugify
+from faker import Faker
+from .filters import AppFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class AppViewset(viewsets.ModelViewSet):
-    queryset = App.objects.order_by("pk")
+    queryset = App.objects.all()
     serializer_class = AppSerializer
     permission_classes = [IsDeveloperOrReadOnly]
-    filter_classes = [AppFilter]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AppFilter
     lookup_field = "slug"
 
     def perform_create(self, serializer):
@@ -55,3 +60,24 @@ def download_app(request, app_slug):
 
     # Serve the file
     return FileResponse(app.apk_file.open(), as_attachment=True)
+
+
+# Fake data views
+def add_fake_data(request):
+    fake = Faker()
+    for _ in range(10):
+        App.objects.create(
+            apk_file=fake.file_extension(category="image"),
+            name=fake.name(),
+            subname=fake.name(),
+            icon_image=fake.file_extension(category="image"),
+            status="published",
+            category=get_object_or_404(Category, id=1),
+            legal_age=fake.random_int(min=3, max=18),
+            downloads="0",
+            about=fake.text(),
+            price=fake.random_int(min=0, max=3_000_000),
+            slug=slugify(fake.name()),
+            tags="action",
+            owner=get_object_or_404(User, id=1),
+        )

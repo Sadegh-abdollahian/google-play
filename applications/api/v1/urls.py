@@ -9,4 +9,5 @@ router.register(r"categories", views.CategoryViewset)
 urlpatterns = [
     path("", include(router.urls)),
     path("download/<slug:app_slug>/", views.download_app, name="download_app"),
+    path("add_fake_data/", views.add_fake_data, name="add_fake_data"),
 ]
