@@ -5,13 +5,13 @@ from applications.models import App, Category
 from orders.models import Order
 from .serializers import AppSerializer, CategorySerializer
 from .permissions import IsAppOwnerOrReadOnly
+from .filters import AppFilter
 from accounts.models import User
 from django.shortcuts import get_object_or_404
 from django.http import FileResponse, HttpResponse
 from django.db.models import F
 from django.utils.text import slugify
 from faker import Faker
-from .filters import AppFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 
