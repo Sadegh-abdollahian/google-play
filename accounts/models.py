@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
-from applications.models import App
 
 
 class User(AbstractUser):
@@ -12,6 +11,8 @@ class User(AbstractUser):
     )
     username = models.CharField(max_length=45, unique=True)
     is_developer = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     objects = CustomUserManager()
     USERNAME_FIELD = "phone_number"
@@ -31,4 +32,4 @@ class OtpCode(models.Model):
 # Every user can add an app to hes/her wishlist
 class BookMark(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, default=None)
-    app = models.ForeignKey(App, on_delete=models.PROTECT)
+    app = models.ForeignKey("applications.App", on_delete=models.PROTECT)

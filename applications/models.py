@@ -41,10 +41,17 @@ class App(models.Model):
     price = models.PositiveIntegerField()
     slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
     tags = TaggableManager()
-    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL, on_delete=models.CASCADE, default=None, null=True, blank=True
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ("updated",)
 
     def get_app_owner(self):
         return self.owner.username
@@ -89,7 +96,11 @@ class Review(models.Model):
     app = models.ForeignKey(App, on_delete=models.PROTECT)
     text = models.CharField(max_length=3000)
     rating = models.PositiveSmallIntegerField(validators=[validate_max_rate], default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.text
+
+    class Meta:
+        ordering = ("updated",)

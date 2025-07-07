@@ -14,8 +14,11 @@ class Order(models.Model):
     app = models.ForeignKey(App, on_delete=models.PROTECT)
     total_amount = models.PositiveIntegerField()
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="draft")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.app.name} --- {self.user.phone_number} --- {self.total_amount}"
+
+    class Meta:
+        ordering = ("updated",)
