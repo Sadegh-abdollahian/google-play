@@ -13,7 +13,6 @@ class AppAdmin(admin.ModelAdmin):
         "downloads",
         "price",
         "slug",
-        "tags",
         "owner",
         "created",
     ]
